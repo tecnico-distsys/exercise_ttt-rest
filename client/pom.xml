@@ -2,13 +2,17 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>pt.ulisboa.tecnico.distsys.ttt</groupId>
+	<groupId>pt.tecnico.sdis</groupId>
 	<artifactId>ttt-rest-client</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
 	<name>${project.artifactId}</name>
 
+	<!-- Properties are variables used to customize the behavior of Maven and its plug-ins. -->
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+		<mainclass>pt.tecnico.ttt.client.TTTPlayer</mainclass>
 
 		<server.host>localhost</server.host>
 		<server.port>8080</server.port>
@@ -17,87 +21,74 @@
 
 	<dependencyManagement>
 		<dependencies>
+			<!-- Jersey - reference implementation for -RS: The Java API for RESTful Web Services.
+				The BoM (Bill-of-Materials) defines a set of versions for subdependencies. -->
 			<dependency>
 				<groupId>org.glassfish.jersey</groupId>
 				<artifactId>jersey-bom</artifactId>
-				<version>2.30.1</version>
+				<version>3.0.1</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
 
+	<!-- Dependencies are code archives - JARs - 
+		on which your current module needs in order to compile, build, test, and/or to run. 
+		When you execute a goal, these dependencies are resolved, and 
+		are then loaded from the local repository. -->
 	<dependencies>
+		<!-- Jersey dependencies (versions are defined by the BoM). -->
 		<dependency>
-			<groupId>pt.ulisboa.tecnico.distsys.ttt</groupId>
-			<artifactId>ttt-rest-contract</artifactId>
-			<version>1.0.0-SNAPSHOT</version>
+			<groupId>org.glassfish.jersey.containers</groupId>
+			<artifactId>jersey-container-grizzly2-http</artifactId>
 		</dependency>
-
 		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.12</version>
-			<scope>test</scope>
+			<groupId>org.glassfish.jersey.containers</groupId>
+			<artifactId>jersey-container-servlet-core</artifactId>
 		</dependency>
-
+		<dependency>
+			<groupId>org.glassfish.jersey.media</groupId>
+			<artifactId>jersey-media-json-jackson</artifactId>
+		</dependency> 
 		<dependency>
 			<groupId>org.glassfish.jersey.inject</groupId>
 			<artifactId>jersey-hk2</artifactId>
 		</dependency>
-
-		<dependency>
-			<groupId>org.glassfish.jersey.media</groupId>
-			<artifactId>jersey-media-json-jackson</artifactId>
-		</dependency>
-
-		<dependency>
+		<!-- JSON support -->
+		 <dependency>
 			<groupId>org.glassfish.jersey.media</groupId>
 			<artifactId>jersey-media-json-binding</artifactId>
 		</dependency>
-
-		<!-- Some libraries that are required by Jersey are no longer included 
-			in newest Java versions -->
+		
+		<!-- Contract dependency brings XML Data binding and WADL support. -->
 		<dependency>
-			<groupId>javax.xml.bind</groupId>
-			<artifactId>jaxb-api</artifactId>
-			<version>2.3.0</version>
-		</dependency>
-
-		<dependency>
-			<groupId>javax.activation</groupId>
-			<artifactId>activation</artifactId>
-			<version>1.1</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.glassfish.jaxb</groupId>
-			<artifactId>jaxb-runtime</artifactId>
-			<version>2.3.0</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.glassfish.jersey.core</groupId>
-			<artifactId>jersey-client</artifactId>
+			<groupId>pt.tecnico.sdis</groupId>
+			<artifactId>ttt-rest-contract</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 
 	<build>
+		<!-- Plug-ins allow for the reuse of common build logic across multiple projects. 
+		They do this by executing an "action" in the context of a project's description. -->
 		<plugins>
+			<!-- The Compiler plug-in is used to compile the sources of your project. -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.7.0</version>
+				<version>3.8.1</version>
 				<inherited>true</inherited>
 				<configuration>
 					<source>11</source>
 					<target>11</target>
 				</configuration>
 			</plugin>
+			<!-- The Exec plug-in is used to execute system and Java programs. -->
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>exec-maven-plugin</artifactId>
-				<version>1.6.0</version>
+				<version>3.0.0</version>
 				<executions>
 					<execution>
 						<goals>
@@ -106,7 +97,7 @@
 					</execution>
 				</executions>
 				<configuration>
-					<mainClass>pt.ulisboa.tecnico.distsys.ttt.client.TTTPlayer</mainClass>
+					<mainClass>${mainclass}</mainClass>
 					<arguments>
 						<argument>${server.host}</argument>
 						<argument>${server.port}</argument>
@@ -115,5 +106,4 @@
 			</plugin>
 		</plugins>
 	</build>
-
 </project>
