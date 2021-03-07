@@ -2,50 +2,52 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>pt.ulisboa.tecnico.distsys.ttt</groupId>
+	<groupId>pt.tecnico.sdis</groupId>
 	<artifactId>ttt-rest-contract</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
 	<name>${project.artifactId}</name>
 
+	<!-- Properties are variables used to customize the behavior of Maven and its plug-ins. -->
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 	</properties>
 
 	<dependencies>
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.12</version>
-			<scope>test</scope>
-		</dependency>
-
-		<!-- Some libraries that are required by Jersey are no longer included 
-			in newest Java versions -->
-		<dependency>
-			<groupId>javax.xml.bind</groupId>
-			<artifactId>jaxb-api</artifactId>
-			<version>2.3.0</version>
-		</dependency>
-
+		<!-- 
+			Libraries required for XML binding and 
+			WADL (Web Application Description Language) support in Jersey 
+		-->
+		<!-- https://mvnrepository.com/artifact/javax.activation/activation -->
 		<dependency>
 			<groupId>javax.activation</groupId>
 			<artifactId>activation</artifactId>
-			<version>1.1</version>
+			<version>1.1.1</version>
 		</dependency>
-
+		<!-- https://mvnrepository.com/artifact/jakarta.xml.bind/jakarta.xml.bind-api 
+			jakarta.xml.bind:jakarta.xml.bind-api replaced javax.xml.bind:jaxb-api -->
+		<dependency>
+			<groupId>jakarta.xml.bind</groupId>
+			<artifactId>jakarta.xml.bind-api</artifactId>
+			<version>3.0.0</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.glassfish.jaxb/jaxb-runtime -->
 		<dependency>
 			<groupId>org.glassfish.jaxb</groupId>
 			<artifactId>jaxb-runtime</artifactId>
-			<version>2.3.0</version>
+			<version>3.0.0</version>
 		</dependency>
 	</dependencies>
 
 	<build>
+		<!-- Plug-ins allow for the reuse of common build logic across multiple projects. 
+		They do this by executing an "action" in the context of a project's description. -->
 		<plugins>
+			<!-- The Compiler plug-in is used to compile the sources of your project. -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.7.0</version>
+				<version>3.8.1</version>
 				<inherited>true</inherited>
 				<configuration>
 					<source>11</source>
