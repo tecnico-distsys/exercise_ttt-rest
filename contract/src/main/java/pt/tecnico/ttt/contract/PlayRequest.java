@@ -1,6 +1,6 @@
-package pt.ulisboa.tecnico.distsys.ttt.contract;
+package pt.tecnico.ttt.contract;
 
-import javax.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 public class PlayRequest {
