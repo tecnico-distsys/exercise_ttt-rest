@@ -1,4 +1,4 @@
-package pt.ulisboa.tecnico.distsys.ttt.server;
+package pt.tecnico.ttt.server;
 
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
