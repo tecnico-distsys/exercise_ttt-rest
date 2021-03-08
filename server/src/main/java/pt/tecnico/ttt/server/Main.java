@@ -31,9 +31,9 @@ public class Main {
 		System.out.println(Main.class.getSimpleName());
 
 		// receive and print arguments
-		System.out.printf("Received %d arguments%n", args.length);
+		debug(String.format("Received %d arguments%n", args.length));
 		for (int i = 0; i < args.length; i++) {
-			System.out.printf("arg[%d] = %s%n", i, args[i]);
+			debug(String.format("arg[%d] = %s%n", i, args[i]));
 		}
 
 		// check arguments
@@ -59,7 +59,8 @@ public class Main {
 		debug("WADL URL: " + wadlURI);
 
 		final HttpServer server = startServer(resourcesPackage, baseURI);
-		System.out.printf("Jersey app started with WADL available at %s%n", wadlURI);
+		System.out.println("Jersey server started and awaiting requests");
+		System.out.printf("Description available at %s%n", wadlURI);
 		
 		System.out.println("Hit enter to stop server...");
 		System.in.read();
