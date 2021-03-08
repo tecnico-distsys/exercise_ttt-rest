@@ -25,9 +25,9 @@ public class TTTPlayer {
 	/**
 	 * During the exercise, there are two code alternatives for calling play. Set
 	 * flag to true to play using a POST with a body. Set flag to false to use a GET
-	 * with arguments.
+	 * with arguments. The flag can be set using the -D command line option.
 	 */
-	private static final boolean USE_POST_TO_PLAY_FLAG = true;
+	private static final boolean USE_POST_TO_PLAY_FLAG = (System.getProperty("playPost") != null);
 
 	/** Main method. */
 	public static void main(String[] args) {
@@ -103,14 +103,14 @@ public class TTTPlayer {
 
 					Response response = null;
 					if (USE_POST_TO_PLAY_FLAG) {
-						/* Use POST to play. */
+						/* Use HTTP POST to play. */
 						debug("Calling POST play");
 						response = client.target(restURL).path("play").request(MediaType.APPLICATION_JSON)
 								.post(Entity.entity(playRequest, MediaType.APPLICATION_JSON), Response.class);
 						debug("Response status: " + response.getStatus() + " " + response.getStatusInfo());
 						play_res = response.readEntity(PlayResult.class);
 					} else {
-						/* Use URL parameter to play. */
+						/* Use HTTP GET with URL parameter to play. */
 						/* URL to play is: play/{row}/{column}/{player} */
 						String playPath = "play/" + String.valueOf(row) + '/' + String.valueOf(column) + '/'
 								+ String.valueOf(player);
@@ -146,7 +146,6 @@ public class TTTPlayer {
 				System.out.println();
 				System.out.println("Congratulations, player " + winner + ", YOU ARE THE WINNER!");
 			}
-
 		}
 	}
 
