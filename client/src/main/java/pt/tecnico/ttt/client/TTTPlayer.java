@@ -13,7 +13,8 @@ import pt.tecnico.ttt.contract.PlayResult;
 
 public class TTTPlayer {
 
-	/** Set flag to true to print debug messages. The flag can be set using the -Ddebug command line option. */
+	/** Set flag to true to print debug messages. 
+	 * The flag can be set using the -Ddebug command line option. */
 	private static final boolean DEBUG_FLAG = (System.getProperty("debug") != null);
 
 	/** Helper method to print debug messages. */
@@ -23,20 +24,20 @@ public class TTTPlayer {
 	}
 
 	/**
-	 * During the exercise, there are two code alternatives for calling play. Set
-	 * flag to true to play using a POST with a body. Set flag to false to use a GET
-	 * with arguments. The flag can be set using the -D command line option.
+	 * During the exercise, there are two code alternatives for calling play. 
+	 * Set flag to true to play using an HTTP POST with a body. Otherwise, an HTTP GET is used.
+	 * The flag can be set using the -DpostPlay command line option.
 	 */
-	private static final boolean USE_POST_TO_PLAY_FLAG = (System.getProperty("playPost") != null);
+	private static final boolean USE_POST_TO_PLAY_FLAG = (System.getProperty("postPlay") != null);
 
 	/** Main method. */
 	public static void main(String[] args) {
 		System.out.println(TTTPlayer.class.getSimpleName());
 
 		// receive and print arguments
-		System.out.printf("Received %d arguments%n", args.length);
+		debug(String.format("Received %d arguments%n", args.length));
 		for (int i = 0; i < args.length; i++) {
-			System.out.printf("arg[%d] = %s%n", i, args[i]);
+			debug(String.format("arg[%d] = %s%n", i, args[i]));
 		}
 
 		// check arguments
