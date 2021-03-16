@@ -30,22 +30,23 @@ public class TTTPlayer {
 	 */
 	private static final boolean USE_POST_TO_PLAY_FLAG = (System.getProperty("postPlay") != null);
 
-	/** Main method. */
+	/** The main method is the starting point for the program. */
 	public static void main(String[] args) {
 		System.out.println(TTTPlayer.class.getSimpleName());
 
 		// receive and print arguments
-		debug(String.format("Received %d arguments%n", args.length));
+		debug(String.format("Received %d arguments", args.length));
 		for (int i = 0; i < args.length; i++) {
-			debug(String.format("arg[%d] = %s%n", i, args[i]));
+			debug(String.format("arg[%d] = %s", i, args[i]));
 		}
 
 		// check arguments
 		if (args.length < 2) {
-			System.out.println("Argument(s) missing!");
-			System.out.printf("Usage: java %s host port%n", TTTPlayer.class.getName());
+			System.err.println("Argument(s) missing!");
+			System.err.printf("Usage: java %s host port%n", TTTPlayer.class.getName());
 			return;
 		}
+
 		final String host = args[0];
 		final int port = Integer.parseInt(args[1]);
 		final String target = host + ":" + port;
@@ -88,7 +89,6 @@ public class TTTPlayer {
 									+ "where you want to place your %c (or 0 to refresh the board): ",
 							player, (player == 1) ? 'X' : 'O');
 					go = scanner.nextInt();
-
 					debug("go = " + go);
 
 					if (go == 0) {
@@ -96,8 +96,10 @@ public class TTTPlayer {
 						continue;
 					}
 
-					row = --go / 3; /* Get row index of square. */
-					column = go % 3; /* Get column index of square. */
+					/* Get row index of board. */
+					row = --go / 3;
+					/* Get column index of board. */
+					column = go % 3;
 					debug("row = " + row + ", column = " + column);
 
 					PlayRequest playRequest = new PlayRequest(row, column, player);
@@ -113,8 +115,7 @@ public class TTTPlayer {
 					} else {
 						/* Use HTTP GET with URL parameter to play. */
 						/* URL to play is: play/{row}/{column}/{player} */
-						String playPath = "play/" + String.valueOf(row) + '/' + String.valueOf(column) + '/'
-								+ String.valueOf(player);
+						String playPath = "play/" + String.valueOf(row) + '/' + String.valueOf(column) + '/' + String.valueOf(player);
 						debug("Calling GET " + playPath);
 						play_res = client.target(restURL).path(playPath).request().get(PlayResult.class);
 					}
@@ -130,8 +131,7 @@ public class TTTPlayer {
 
 				/* Select next player. */
 				player = (player + 1) % 2;
-
-				System.out.println("player " + player);
+				debug("player " + player);
 
 			} while (winner == -1);
 
@@ -166,6 +166,7 @@ public class TTTPlayer {
 			System.out.print("Game has finished.");
 			break;
 		default:
+			System.out.println("Unexpected result: " + play_res.toString());
 			break;
 		}
 		System.out.println(" Try again...");
